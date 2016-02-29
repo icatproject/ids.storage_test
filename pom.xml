@@ -1,0 +1,197 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.icatproject</groupId>
+	<artifactId>ids.storage_test</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>IDS storage_test</name>
+
+	<description>Test plugin for ICAT Data Service.</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<repoUrl>http://www.icatproject.org/mvn/repo</repoUrl>
+		<project.scm.id>github</project.scm.id>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>ICAT Repo</id>
+			<url>http://www.icatproject.org/mvn/repo</url>
+		</repository>
+	</repositories>
+
+	<scm>
+		<connection>scm:git:https://github.com/icatproject/ids.storage_test.git</connection>
+		<developerConnection>scm:git:https://github.com/icatproject/ids.storage_test.git</developerConnection>
+		<url>https://github.com/icatproject/ids.storage_test</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<url>https://github.com/icatproject/ids.storage_test/issues</url>
+		<system>GitHub</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>The ICAT Collaboration</name>
+		<url>http://www.icatproject.org</url>
+	</organization>
+
+	<distributionManagement>
+		<downloadUrl>http://www.icatproject.org/mvn/repo</downloadUrl>
+		<site>
+			<id>website</id>
+			<url>scp://www.icatproject.org/var/www/html/mvn/site/ids/storage_test/${project.version}</url>
+		</site>
+		<repository>
+			<id>repo</id>
+			<url>scp://www.icatproject.org/var/www/html/mvn/repo</url>
+		</repository>
+	</distributionManagement>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.icatproject</groupId>
+			<artifactId>icat.utils</artifactId>
+			<version>4.12.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.icatproject</groupId>
+			<artifactId>ids.plugin</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>org.icatproject:ids.storage</include>
+							<include>org.icatproject:ids.plugin</include>
+							<include>org.icatproject:icat.utils</include>
+							<include>org.icatproject:icat.client</include>
+						</includes>
+					</artifactSet>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.5</version>
+				<configuration>
+					<descriptors>
+						<descriptor>${project.basedir}/assemble/distribution.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.4</version>
+				<dependencies>
+					<dependency><!-- add support for ssh/scp -->
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>1.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<dependencies>
+					<dependency><!-- add support for ssh/scp -->
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>1.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.8</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>summary</report>
+							<report>dependencies</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>plugins</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+</project>
+

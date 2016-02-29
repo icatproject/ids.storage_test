@@ -1,0 +1,59 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<id>distro</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<outputDirectory>ids.storage_file</outputDirectory>
+			<directory>${basedir}/src/main/scripts</directory>
+			<excludes>
+				<exclude>*.dump</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>ids.storage_file</outputDirectory>
+			<directory>${basedir}/src/main/config</directory>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>ids.storage_file</outputDirectory>
+			<directory>${basedir}</directory>
+			<filtered>true</filtered>
+			<includes>
+				<include>*.txt</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>ids.storage_file</outputDirectory>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<includes>
+				<include>org.icatproject:ids.storage_file</include>
+			</includes>
+		</dependencySet>
+
+		<dependencySet>
+			<outputDirectory>ids.storage_file</outputDirectory>
+			<useTransitiveDependencies>false</useTransitiveDependencies>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<includes>
+					<include>*.py</include>
+				</includes>
+			</unpackOptions>
+			<includes>
+				<include>org.icatproject:icat.utils</include>
+				<include>org.icatproject:icat.client</include>
+			</includes>
+		</dependencySet>
+
+	</dependencySets>
+</assembly>
