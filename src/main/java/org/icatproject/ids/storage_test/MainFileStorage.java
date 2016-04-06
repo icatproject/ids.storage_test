@@ -1,4 +1,4 @@
-package org.icatproject.ids.storage;
+package org.icatproject.ids.storage_test;
 
 import java.io.BufferedInputStream;
 import java.io.File;

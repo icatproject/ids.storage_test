@@ -63,13 +63,13 @@
 		<dependency>
 			<groupId>org.icatproject</groupId>
 			<artifactId>icat.utils</artifactId>
-			<version>4.12.0-SNAPSHOT</version>
+			<version>4.13.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.icatproject</groupId>
 			<artifactId>ids.plugin</artifactId>
-			<version>1.3.0</version>
+			<version>1.3.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -101,10 +101,8 @@
 				<configuration>
 					<artifactSet>
 						<includes>
-							<include>org.icatproject:ids.storage</include>
 							<include>org.icatproject:ids.plugin</include>
 							<include>org.icatproject:icat.utils</include>
-							<include>org.icatproject:icat.client</include>
 						</includes>
 					</artifactSet>
 				</configuration>
@@ -145,7 +143,7 @@
 					<dependency><!-- add support for ssh/scp -->
 						<groupId>org.apache.maven.wagon</groupId>
 						<artifactId>wagon-ssh</artifactId>
-						<version>1.0</version>
+						<version>2.10</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -158,7 +156,7 @@
 					<dependency><!-- add support for ssh/scp -->
 						<groupId>org.apache.maven.wagon</groupId>
 						<artifactId>wagon-ssh</artifactId>
-						<version>1.0</version>
+						<version>2.10</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -174,7 +172,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.8.1</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<reports>

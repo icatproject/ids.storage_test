@@ -1,4 +1,4 @@
-package org.icatproject.ids.storage;
+package org.icatproject.ids.storage_test;
 
 import org.icatproject.ids.plugin.DsInfo;
 

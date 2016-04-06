@@ -1,4 +1,4 @@
-package org.icatproject.ids.storage;
+package org.icatproject.ids.storage_test;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -9,10 +9,12 @@ import org.icatproject.ids.plugin.DsInfo;
 import org.icatproject.ids.plugin.ZipMapperInterface;
 
 /**
- * An implementation of the ZipMapperInterface that encodes the parts of the name using percentage
- * encoding. This ensures that the name is file system friendly when unzipped. However the last part
- * which may be expected to include '/' characters is not encoded. This assumes that the user has
- * given some thought to the choice of file name which is obtained from the field Datafile.name.
+ * An implementation of the ZipMapperInterface that encodes the parts of the
+ * name using percentage encoding. This ensures that the name is file system
+ * friendly when unzipped. However the last part which may be expected to
+ * include '/' characters is not encoded. This assumes that the user has given
+ * some thought to the choice of file name which is obtained from the field
+ * Datafile.name.
  */
 public class ZipMapper implements ZipMapperInterface {
 

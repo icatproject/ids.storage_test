@@ -2,13 +2,13 @@
 from setup_utils import *
 import os
 
-# ids.storage_file
+# ids.storage_test
 
-actions, arg, props = getActions("ids.storage_file-setup.properties", [])
+actions, arg, props = getActions("ids.storage_test-setup.properties", [])
 
 prop_lists = {}
-prop_lists["ids.storage_file.main.properties"] = ["dir"]
-prop_lists["ids.storage_file.archive.properties"] = ["dir"]
+prop_lists["ids.storage_test.main.properties"] = ["dir"]
+prop_lists["ids.storage_test.archive.properties"] = ["dir"]
 
 
 if arg in ["CONFIGURE", "INSTALL"]:
@@ -30,8 +30,8 @@ if arg == "INSTALL":
     try:     
         app = actions.getAppName("ids.server")
         if app: actions.disableApp(app)   
-        actions.removeFromApplibs("ids.storage_file*.jar")    
-        actions.installToApplibs("ids.storage_file*.jar")
+        actions.removeFromApplibs("ids.storage_test*.jar")    
+        actions.installToApplibs("ids.storage_test*.jar")
         actions.stopDomain()
         actions.startDomain()
         if app: actions.enableApp(app) 
@@ -44,7 +44,7 @@ if arg == "UNINSTALL":
         actions.removeFile(prop_name)
     
     try:
-        actions.removeFromApplibs("ids.storage_file*.jar")        
+        actions.removeFromApplibs("ids.storage_test*.jar")        
     except Exception, e:
         abort(str(e))       
     
