@@ -7,7 +7,7 @@ import org.icatproject.ids.plugin.DfInfo;
 public class DfInfoImpl implements DfInfo {
 
 	private String createId;
-	private long dfId;
+	private Long dfId;
 	private String dfLocation;
 	private String dfName;
 	private String modId;

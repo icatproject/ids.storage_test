@@ -7,7 +7,7 @@ public class DsInfoImpl implements DsInfo {
 	private long dsId;
 	private String dsLocation;
 	private String dsName;
-	private long facilityId;
+	private Long facilityId;
 	private String facilityName;
 	private long invId;
 	private String invName;
