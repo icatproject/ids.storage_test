@@ -47,12 +47,12 @@ public class MainFileStorageTest {
 
 	@BeforeClass
 	public static void beforeClass() throws IOException, ClassNotFoundException, InterruptedException {
-		File testPropertyFile = new File(MainFileStorageTest.class.getClassLoader().getResource("main.test.properties")
-				.getFile());
-		mainFileStorage = new MainFileStorage(testPropertyFile);
+
 		Properties props = new Properties();
 		props.load(MainFileStorageTest.class.getClassLoader().getResourceAsStream("main.test.properties"));
-		Path dir = new File(props.getProperty("dir")).toPath();
+		mainFileStorage = new MainFileStorage(props);
+
+		Path dir = new File(props.getProperty("plugin.main.dir")).toPath();
 		if (dir != null) {
 			if (Files.exists(dir)) {
 				Files.walkFileTree(dir, treeDeleteVisitor);
@@ -98,11 +98,10 @@ public class MainFileStorageTest {
 	public void testGetDatasetsToArchive() throws Exception {
 		List<DsInfo> dsInfos = mainFileStorage.getDatasetsToArchive(24670, 24690);
 		assertEquals(0, dsInfos.size());
-		
+
 		dsInfos = mainFileStorage.getDatasetsToArchive(24670, 24680);
 		assertEquals(1, dsInfos.size());
 		assertEquals("1/1", dsInfos.get(0).toString());
-
 
 		dsInfos = mainFileStorage.getDatasetsToArchive(24650, 24680);
 		assertEquals(2, dsInfos.size());
