@@ -30,14 +30,21 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 
 	private static Random rand = new Random();
 
+	Path testHome;
 	Path baseDir;
 
 	public ArchiveFileStorage(Properties props) throws IOException {
-		String fname = Utils.resolveEnvs(props.getProperty("plugin.archive.dir"));
+		String fname = props.getProperty("testHome");
+		if (fname == null) {
+			fname = System.getProperty("user.home");
+		}
+		testHome = Paths.get(fname);
+		Utils.checkDir(testHome);
+		fname = Utils.resolveEnvs(props.getProperty("plugin.archive.dir"));
 		if (fname == null) {
 			throw new IOException("\"plugin.archive.dir\" is not defined");
 		}
-		baseDir = new File(fname).toPath();
+		baseDir = testHome.resolve(fname);
 		Utils.checkDir(baseDir);
 	}
 
@@ -112,7 +119,7 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 	}
 
 	private void think() throws IOException {
-		Path p = Paths.get(System.getProperty("user.home"), "reliability");
+		Path p = testHome.resolve("reliability");
 		try (BufferedReader in = Files.newBufferedReader(p)) {
 			double reliability = Double.parseDouble(in.readLine());
 			if (rand.nextFloat() > reliability) {

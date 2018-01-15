@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,14 +22,21 @@ import org.icatproject.ids.plugin.MainStorageInterface;
 
 public class MainFileStorage implements MainStorageInterface {
 
+	Path testHome;
 	Path baseDir;
 
 	public MainFileStorage(Properties props) throws IOException {
-		String fname = Utils.resolveEnvs(props.getProperty("plugin.main.dir"));
+		String fname = props.getProperty("testHome");
+		if (fname == null) {
+			fname = System.getProperty("user.home");
+		}
+		testHome = Paths.get(fname);
+		Utils.checkDir(testHome);
+		fname = Utils.resolveEnvs(props.getProperty("plugin.main.dir"));
 		if (fname == null) {
 			throw new IOException("\"plugin.main.dir\" is not defined");
 		}
-		baseDir = new File(fname).toPath();
+		baseDir = testHome.resolve(fname);
 		Utils.checkDir(baseDir);
 	}
 
