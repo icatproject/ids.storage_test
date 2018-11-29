@@ -62,11 +62,6 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.icatproject</groupId>
-			<artifactId>icat.utils</artifactId>
-			<version>4.14.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.icatproject</groupId>
@@ -81,6 +76,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.icatproject</groupId>
+			<artifactId>icat.utils</artifactId>
+			<version>4.16.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -122,7 +122,6 @@
 					<artifactSet>
 						<includes>
 							<include>org.icatproject:ids.plugin</include>
-							<include>org.icatproject:icat.utils</include>
 						</includes>
 					</artifactSet>
 				</configuration>
@@ -139,7 +138,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.5</version>
+				<version>3.0.0</version>
 				<configuration>
 					<descriptors>
 						<descriptor>${project.basedir}/assemble/distribution.xml</descriptor>

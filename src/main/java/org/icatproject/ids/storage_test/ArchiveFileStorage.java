@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,8 +19,6 @@ import org.icatproject.ids.plugin.ArchiveStorageInterface;
 import org.icatproject.ids.plugin.DfInfo;
 import org.icatproject.ids.plugin.DsInfo;
 import org.icatproject.ids.plugin.MainStorageInterface;
-import org.icatproject.utils.CheckedProperties;
-import org.icatproject.utils.CheckedProperties.CheckedPropertyException;
 
 /**
  * File storage which emulates an unreliable tape backend.
@@ -33,22 +32,13 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 
 	Path baseDir;
 
-	public ArchiveFileStorage(File properties) throws IOException {
-		try {
-			CheckedProperties props = new CheckedProperties();
-			props.loadFromFile(properties.getPath());
-
-			baseDir = props.getFile("dir").toPath();
-			checkDir(baseDir, properties);
-		} catch (CheckedPropertyException e) {
-			throw new IOException("CheckedPropertException " + e.getMessage());
+	public ArchiveFileStorage(Properties props) throws IOException {
+		String fname = Utils.resolveEnvs(props.getProperty("plugin.archive.dir"));
+		if (fname == null) {
+			throw new IOException("\"plugin.archive.dir\" is not defined");
 		}
-	}
-
-	private void checkDir(Path dir, File props) throws IOException {
-		if (!Files.isDirectory(dir)) {
-			throw new IOException(dir + " as specified in " + props + " is not a directory");
-		}
+		baseDir = new File(fname).toPath();
+		Utils.checkDir(baseDir);
 	}
 
 	@Override

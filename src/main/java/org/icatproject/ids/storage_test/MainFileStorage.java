@@ -11,36 +11,25 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
 import org.icatproject.ids.plugin.DfInfo;
 import org.icatproject.ids.plugin.DsInfo;
 import org.icatproject.ids.plugin.MainStorageInterface;
-import org.icatproject.utils.CheckedProperties;
-import org.icatproject.utils.CheckedProperties.CheckedPropertyException;
 
 public class MainFileStorage implements MainStorageInterface {
 
 	Path baseDir;
 
-	public MainFileStorage(File properties) throws IOException {
-		try {
-			CheckedProperties props = new CheckedProperties();
-			props.loadFromFile(properties.getPath());
-
-			baseDir = props.getFile("dir").toPath();
-			checkDir(baseDir, properties);
-
-		} catch (CheckedPropertyException e) {
-			throw new IOException("CheckedPropertException " + e.getMessage());
+	public MainFileStorage(Properties props) throws IOException {
+		String fname = Utils.resolveEnvs(props.getProperty("plugin.main.dir"));
+		if (fname == null) {
+			throw new IOException("\"plugin.main.dir\" is not defined");
 		}
-	}
-
-	private void checkDir(Path dir, File props) throws IOException {
-		if (!Files.isDirectory(dir)) {
-			throw new IOException(dir + " as specified in " + props + " is not a directory");
-		}
+		baseDir = new File(fname).toPath();
+		Utils.checkDir(baseDir);
 	}
 
 	@Override
