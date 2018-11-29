@@ -5,7 +5,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -30,14 +32,21 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 
 	private static Random rand = new Random();
 
+	Path testHome;
 	Path baseDir;
 
 	public ArchiveFileStorage(Properties props) throws IOException {
-		String fname = Utils.resolveEnvs(props.getProperty("plugin.archive.dir"));
+		String fname = props.getProperty("testHome");
+		if (fname == null) {
+			fname = System.getProperty("user.home");
+		}
+		testHome = Paths.get(fname);
+		Utils.checkDir(testHome);
+		fname = Utils.resolveEnvs(props.getProperty("plugin.archive.dir"));
 		if (fname == null) {
 			throw new IOException("\"plugin.archive.dir\" is not defined");
 		}
-		baseDir = new File(fname).toPath();
+		baseDir = testHome.resolve(fname);
 		Utils.checkDir(baseDir);
 	}
 
@@ -46,12 +55,10 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 		think();
 		String location = dsInfo.getInvId() + "/" + dsInfo.getDsId();
 		Path path = baseDir.resolve(location);
-		Files.delete(path);
-		path = path.getParent();
 		try {
 			Files.delete(path);
-		} catch (IOException e) {
-			// Investigation directory probably not empty
+			Files.delete(path.getParent());
+		} catch (DirectoryNotEmptyException | NoSuchFileException e) {
 		}
 	}
 
@@ -112,7 +119,7 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 	}
 
 	private void think() throws IOException {
-		Path p = Paths.get(System.getProperty("user.home"), "reliability");
+		Path p = testHome.resolve("reliability");
 		try (BufferedReader in = Files.newBufferedReader(p)) {
 			double reliability = Double.parseDouble(in.readLine());
 			if (rand.nextFloat() > reliability) {
