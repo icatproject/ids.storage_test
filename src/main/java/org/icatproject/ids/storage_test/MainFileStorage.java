@@ -77,7 +77,7 @@ public class MainFileStorage implements MainStorageInterface {
 	}
 
 	@Override
-	public boolean exists(DsInfo dsInfo) throws IOException {
+	public boolean exists(DsInfo dsInfo) {
 		return Files.exists(baseDir.resolve(getRelPath(dsInfo)));
 	}
 
@@ -112,7 +112,7 @@ public class MainFileStorage implements MainStorageInterface {
 	}
 
 	@Override
-	public boolean exists(String location) throws IOException {
+	public boolean exists(String location) {
 		return Files.exists(baseDir.resolve(location));
 	}
 
