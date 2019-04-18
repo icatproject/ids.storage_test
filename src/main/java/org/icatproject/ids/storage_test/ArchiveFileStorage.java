@@ -17,7 +17,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import org.icatproject.ids.plugin.ArchiveStorageInterface;
+import org.icatproject.ids.plugin.AbstractArchiveStorage;
 import org.icatproject.ids.plugin.DfInfo;
 import org.icatproject.ids.plugin.DsInfo;
 import org.icatproject.ids.plugin.MainStorageInterface;
@@ -28,7 +28,7 @@ import org.icatproject.ids.plugin.MainStorageInterface;
  * The reliability is a number between 0 and 1 which is read from ~/reliability
  *
  */
-public class ArchiveFileStorage implements ArchiveStorageInterface {
+public class ArchiveFileStorage extends AbstractArchiveStorage {
 
 	private static Random rand = new Random();
 
@@ -66,16 +66,15 @@ public class ArchiveFileStorage implements ArchiveStorageInterface {
 	public void delete(String location) throws IOException {
 		think();
 		Path path = baseDir.resolve(location);
-		Files.delete(path);
-		/* Try deleting empty directories */
-		path = path.getParent();
 		try {
+			Files.delete(path);
+			/* Try deleting empty directories */
+			path = path.getParent();
 			while (!path.equals(baseDir)) {
 				Files.delete(path);
 				path = path.getParent();
 			}
-		} catch (IOException e) {
-			// Directory probably not empty
+		} catch (DirectoryNotEmptyException | NoSuchFileException e) {
 		}
 	}
 
