@@ -10,20 +10,20 @@ if arg in ["CONFIGURE", "INSTALL"]:
     actions.checkNoErrors()
 
 if arg == "INSTALL":
-    try:     
+    try:
         app = actions.getAppName("ids.server")
-        if app: actions.disableApp(app)   
-        actions.removeFromApplibs("ids.storage_test*.jar")    
+        if app: actions.disableApp(app)
+        actions.removeFromApplibs("ids.storage_test*.jar")
         actions.installToApplibs("ids.storage_test*.jar")
         actions.stopDomain()
         actions.startDomain()
-        if app: actions.enableApp(app) 
-    except Exception, e:
+        if app: actions.enableApp(app)
+    except Exception as e:
         raise
         abort(str(e))
-                
-if arg == "UNINSTALL":    
+
+if arg == "UNINSTALL":
     try:
-        actions.removeFromApplibs("ids.storage_test*.jar")        
-    except Exception, e:
-        abort(str(e))       
+        actions.removeFromApplibs("ids.storage_test*.jar")
+    except Exception as e:
+        abort(str(e))
