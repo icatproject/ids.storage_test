@@ -16,7 +16,7 @@
 
     <ul>
       <li>The ids storage_test distribution:
-	<a href="${repoUrl}/org/icatproject/ids.server/${project.version}/ids.storage_test-${project.version}-distro.zip">ids.storage_test-${project.version}-distro.zip</a>
+	<a href="${repoUrl}/org/icatproject/ids.storage_test/${project.version}/ids.storage_test-${project.version}-distro.zip">ids.storage_test-${project.version}-distro.zip</a>
       </li>
 
       <li>A suitable deployed container (here assumed to be Payara)
