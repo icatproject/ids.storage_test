@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.icatproject</groupId>
 	<artifactId>ids.storage_test</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<name>IDS storage_test</name>
 
 	<description>Test plugin for ICAT Data Service.</description>
@@ -27,7 +27,7 @@
 		<connection>scm:git:${gitUrl}.git</connection>
 		<developerConnection>scm:git:git@github.com:icatproject/ids.storage_test.git</developerConnection>
 		<url>${gitUrl}</url>
-		<tag>v3.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
